@@ -1,2 +1,2 @@
-# ConsTrust
-ConsTrust - Digital Construction Enhanced by Blockchain
+# CONTRUST
+Digital Construction Enhanced by Blockchain
