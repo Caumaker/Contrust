@@ -1,6 +1,5 @@
 # CONTRUST
 ## Digital Construction Enhanced by Blockchain
-===
 
 Contrust is a open source project created to enhance digital construction auditability. It could be used to any kind of IoT system, mainly that related to construction.
 
