@@ -1,0 +1,29 @@
+{
+  "name": "contrust-gateway",
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "core-js": "^3.15.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15",
+    "npm": "^7.23.0",
+    "nuxt": "^2.15.8",
+    "nuxt-fontawesome": "^0.4.0",
+    "nuxt-i18n": "^6.25.0",
+    "vuetify": "^2.5.5"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.12.1"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "contrust",
+  "version": "1.0.0",
+  "description": "Contrust is a open source project created to enhance digital construction auditability. It could be used to any kind of IoT system, mainly that related to construction.",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2 startOrReload ecosystem.json --update-env && npm run logs",
+    "logs": "pm2 logs",
+    "kill": "pm2 flush && pm2 kill",
+    "flush": "pm2 flush"
+  },
+  "keywords": [
+    "blockchain",
+    "contrust",
+    "nuxtjs"
+  ],
+  "author": "Somenzi Brothers",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "pm2": "^3.2.2",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caumaker/Contrust.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Caumaker/Contrust/issues"
+  },
+  "homepage": "https://github.com/Caumaker/Contrust#readme"
+}
