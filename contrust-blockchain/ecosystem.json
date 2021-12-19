@@ -1,7 +1,7 @@
 {
   "apps" : [
     {
-      "name": "Node 1",
+      "name": "Contrust Peer 1",
       "script": "./src/server.js",
       "watch": ["src/"],
       "env": {
@@ -9,7 +9,7 @@
       }
     },
     {
-      "name": "Node 2",
+      "name": "Contrust Peer 2",
       "script": "./src/server.js",
       "watch": ["src/"],
       "env": {
@@ -17,7 +17,7 @@
       }
     },
     {
-      "name": "Node 3",
+      "name": "Contrust Peer 3",
       "script": "./src/server.js",
       "watch": ["src/"],
       "env": {
