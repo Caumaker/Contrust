@@ -1,0 +1,32 @@
+{
+  "name": "contrust-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2 startOrReload ecosystem.json --update-env && npm run logs",
+    "logs": "pm2 logs",
+    "kill": "pm2 flush && pm2 kill",
+    "flush": "pm2 flush"
+  },
+  "keywords": [
+    "blockchain",
+    "express",
+    "socket",
+    "websocket",
+    "nuxtjs"
+  ],
+  "author": "Somenzi Brothers",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "pm2": "^3.2.2",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.0"
+  }
+}

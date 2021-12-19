@@ -1,0 +1,28 @@
+{
+  "apps" : [
+    {
+      "name": "Node 1",
+      "script": "./src/server.js",
+      "watch": ["src/"],
+      "env": {
+        "PORT": "5000"
+      }
+    },
+    {
+      "name": "Node 2",
+      "script": "./src/server.js",
+      "watch": ["src/"],
+      "env": {
+        "PORT": "5001"
+      }
+    },
+    {
+      "name": "Node 3",
+      "script": "./src/server.js",
+      "watch": ["src/"],
+      "env": {
+        "PORT": "5002"
+      }
+    }
+  ]
+}

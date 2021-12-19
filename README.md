@@ -18,8 +18,12 @@ Contrust is a open source project created to enhance digital construction audita
 
 5. [Nuxt.js](https://nuxtjs.org/)
 
-## Start-Up
+## Start-Up in four basic steps
 
-1. Run `yarn install` or `npm install`
+1. Clone the repo
 
-2. Run `yarn start` or `npm start`
+2. Access contrust-gateway and run `npm install && npm run dev`
+
+3. Access contrust-blockchain and run `npm install && npm start`
+
+4. Configure and start your DGD system to POST data to Contrust.
