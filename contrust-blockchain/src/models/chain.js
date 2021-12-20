@@ -24,7 +24,7 @@ class Blockchain {
 
   async newTransaction(transaction) {
     this.currentTransactions.push(transaction);
-    if (this.currentTransactions.length === 2) {
+    if (this.currentTransactions.length === 1) {
       console.info('Starting mining block...');
       const previousBlock = this.lastBlock();
       process.env.BREAK = false;

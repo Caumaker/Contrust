@@ -1,5 +1,4 @@
 <template>
-  <v-row class="pt-10 px-10" justify="center">
 <v-card>
         <v-card-title>
           <span class="text-h5">Project Information</span>
@@ -93,12 +92,12 @@
           <v-btn
             color="blue darken-1"
             text
+            @click="saved"
           >
             Save
           </v-btn>
         </v-card-actions>
       </v-card>    
-  </v-row>
 </template>
 
 <script>
@@ -106,5 +105,10 @@
     data: () => ({
       dialog: false,
     }),
+         methods: {
+        async saved() {
+            alert('saved')
+        }
+      }
   }
 </script>

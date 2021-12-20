@@ -1,5 +1,5 @@
 const SocketActions = require('./constants');
-
+const axios = require('axios');
 const Transaction = require('./models/transaction');
 const Blockchain = require('./models/chain');
 
@@ -17,6 +17,15 @@ const socketListeners = (socket, chain) => {
     blockChain.parseChain(newChain);
     if (blockChain.checkValidity() && blockChain.getLength() >= chain.getLength()) {
       chain.blocks = blockChain.blocks;
+
+      axios.post('http://localhost:6001/updateChain', { blockChain: blockChain.blocks})
+    .then(res => {
+        console.log(`statusCode: ${res.status}`)
+    })
+    .catch(error => {
+        console.error(error)
+    })    
+  
     }
   });
 

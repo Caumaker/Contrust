@@ -18,7 +18,8 @@ app.post('/api/fileSource', function(req, res) {
   
     for(let x = 0; x < lines.length; x++){
         setTimeout(()=>{
-            axios.post('https://contrust.com/54335743986731', { instrument_reading: lines[x]})
+            // axios.post('https://contrust.com/54335743986731', { instrument_reading: lines[x]})
+            axios.post('http://localhost:6001/uploadDGD', { instrument_reading: lines[x]})
             .then(res => {
                 console.log(`statusCode: ${res.status}`)
                 console.log(res)
@@ -26,7 +27,7 @@ app.post('/api/fileSource', function(req, res) {
             .catch(error => {
                 console.error(error)
             })    
-        },x*60000)
+        },x*10000)
     }
   });
   
