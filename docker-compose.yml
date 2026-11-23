@@ -1,0 +1,13 @@
+# docker compose up  ->  dashboard on http://localhost:6001
+services:
+  contrust-demo:
+    build: .
+    ports:
+      - "6001:6001"
+      - "5101:5101"
+      - "5102:5102"
+      - "5103:5103"
+    volumes:
+      - contrust-data:/app/data
+volumes:
+  contrust-data:

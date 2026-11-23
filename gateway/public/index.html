@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrust</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1l7 7-7 7-7-7z' fill='%234c8dff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="marca"><span class="logo">◆</span> CONTRUST <small>tamper-evident instrument readings</small></div>
+  <a href="https://github.com/Caumaker/Contrust" target="_blank" rel="noopener">GitHub</a>
+</header>
+<main>
+  <section class="cartoes" id="estado">
+    <div class="cartao"><b id="altura">-</b><span>blocks</span></div>
+    <div class="cartao"><b id="ancoradas">-</b><span>readings anchored</span></div>
+    <div class="cartao"><b id="pendentes">-</b><span>waiting for a block</span></div>
+    <div class="cartao"><b id="pares">-</b><span>peer connections</span></div>
+    <div class="cartao largo"><b id="ponta" class="mono">-</b><span>chain tip</span></div>
+  </section>
+
+  <section>
+    <div class="titulo">Instruments</div>
+    <div id="instrumentos" class="chips"></div>
+    <svg id="grafico" viewBox="0 0 900 220" preserveAspectRatio="none" role="img" aria-label="Readings of the selected instrument"></svg>
+  </section>
+
+  <section>
+    <div class="titulo">Latest readings <span class="dica">live</span></div>
+    <div class="tabela">
+      <table>
+        <thead><tr><th>Taken at</th><th>Instrument</th><th class="num">Value</th><th>Device</th><th>Status</th><th></th></tr></thead>
+        <tbody id="leituras"><tr><td colspan="6" class="vazio">No readings yet. Run <code>npm run simulate</code> or POST to <code>/api/readings</code>.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<dialog id="prova">
+  <form method="dialog">
+    <h3>Verify reading</h3>
+    <p class="mono pequeno" id="provaHash"></p>
+    <ol id="passos"></ol>
+    <p class="pequeno nota">Steps 1 to 3 run in your browser from the raw proof. The signature (step 4) is checked by the gateway; for a check that trusts nobody, run <code>npm run verify -- --peer &lt;url&gt; --reading &lt;hash&gt; --authorities &lt;keys&gt;</code>.</p>
+    <div class="acoes"><a id="baixar" download="proof.json">Download proof (JSON)</a><button>Close</button></div>
+  </form>
+</dialog>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

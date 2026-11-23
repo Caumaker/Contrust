@@ -1,32 +1,13 @@
 {
   "name": "contrust",
-  "version": "1.0.0",
-  "description": "Contrust is a open source project created to enhance digital construction auditability. It could be used to any kind of IoT system, mainly that related to construction.",
-  "main": "index.js",
-  "scripts": {
-    "start": "pm2 startOrReload ecosystem.json --update-env && npm run logs",
-    "logs": "pm2 logs",
-    "kill": "pm2 flush && pm2 kill",
-    "flush": "pm2 flush"
-  },
-  "keywords": [
-    "blockchain",
-    "contrust",
-    "nuxtjs"
-  ],
-  "author": "Somenzi Brothers",
+  "version": "2.0.0",
+  "description": "Tamper-evident ledger for construction and IoT instrument readings: every reading is anchored in a signed, hash-linked chain and can be verified on its own.",
   "license": "MIT",
-  "dependencies": {
-    "axios": "^0.18.0",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "pm2": "^3.2.2",
-    "socket.io": "^2.1.1",
-    "socket.io-client": "^2.1.1"
-  },
-  "devDependencies": {
-    "eslint": "^5.6.0"
-  },
+  "author": "Cauê Somensi",
+  "contributors": [
+    "Claude (Anthropic)"
+  ],
+  "homepage": "https://github.com/Caumaker/Contrust#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Caumaker/Contrust.git"
@@ -34,5 +15,33 @@
   "bugs": {
     "url": "https://github.com/Caumaker/Contrust/issues"
   },
-  "homepage": "https://github.com/Caumaker/Contrust#readme"
+  "keywords": [
+    "blockchain",
+    "construction",
+    "iot",
+    "audit",
+    "merkle",
+    "geotechnical",
+    "monitoring"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "bin": {
+    "contrust-verify": "tools/verify.js"
+  },
+  "scripts": {
+    "demo": "node scripts/demo.js",
+    "ledger": "node ledger/index.js",
+    "gateway": "node gateway/index.js",
+    "simulate": "node devices/simulator.js",
+    "verify": "node tools/verify.js",
+    "keygen": "node tools/keygen.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  }
 }
