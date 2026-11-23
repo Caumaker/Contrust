@@ -40,6 +40,7 @@ peers.forEach((p, i) => run(p.name, 'ledger/index.js', {
 }, colors[i]));
 setTimeout(() => run('gateway', 'gateway/index.js', {
   PORT: '6001', DATA_DIR: path.join(data, 'gateway'), LEDGER_URLS: 'http://localhost:5101,http://localhost:5102',
+  CHAIN_ID: 'contrust-demo', AUTHORITIES: authorities,
   GATEWAY_TOKEN: tokens.gateway, NETWORK_TOKEN: tokens.network, DEVICES_FILE: path.join(data, 'devices.json'),
 }, colors[3]), 800);
 setTimeout(() => {

@@ -1,29 +1,38 @@
 'use strict';
-// Append-only file with one block per line (JSON Lines). Replacing the chain after a fork writes a new file and renames it.
+// Append-only file with one block per line (JSON Lines). Blocks are written BEFORE they enter the chain in memory,
+// so a failed write never leaves a hole. A last line cut by a power loss is dropped (it was never confirmed).
 const fs = require('fs');
 const path = require('path');
 
 class Store {
-  constructor(file) {
+  constructor(file, log = () => {}) {
     this.file = file;
+    this.log = log;
     fs.mkdirSync(path.dirname(file), { recursive: true });
   }
 
   load() {
     if (!fs.existsSync(this.file)) return [];
-    return fs.readFileSync(this.file, 'utf8').split('\n').filter(Boolean).map((line, i) => {
-      try { return JSON.parse(line); } catch (e) { throw new Error(`${this.file}: line ${i + 1} is not valid JSON`); }
-    });
+    const text = fs.readFileSync(this.file, 'utf8');
+    const lines = text.split('\n');
+    const blocks = [];
+    for (let i = 0; i < lines.length; i++) {
+      if (!lines[i]) continue;
+      try {
+        blocks.push(JSON.parse(lines[i]));
+      } catch (e) {
+        const isLast = lines.slice(i + 1).every((l) => !l);
+        if (!isLast) throw new Error(`${this.file}: line ${i + 1} is not valid JSON`);
+        const keep = lines.slice(0, i).join('\n') + (i ? '\n' : '');
+        fs.writeFileSync(this.file, keep);
+        this.log(`dropped an incomplete last line in ${this.file} (interrupted write)`);
+      }
+    }
+    return blocks;
   }
 
   append(block) {
     fs.appendFileSync(this.file, JSON.stringify(block) + '\n');
-  }
-
-  replace(blocks) {
-    const tmp = this.file + '.tmp';
-    fs.writeFileSync(tmp, blocks.map((b) => JSON.stringify(b)).join('\n') + '\n');
-    fs.renameSync(tmp, this.file);
   }
 }
 

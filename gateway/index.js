@@ -11,6 +11,8 @@ const gw = createGateway({
   port: Number(process.env.PORT || 6001),
   dataDir: process.env.DATA_DIR || './data/gateway',
   ledgerUrls: list(process.env.LEDGER_URLS || 'http://localhost:5101'),
+  chainId: process.env.CHAIN_ID || '',
+  authorities: list(process.env.AUTHORITIES),
   gatewayToken: process.env.GATEWAY_TOKEN || '',
   networkToken: process.env.NETWORK_TOKEN || '',
   deviceToken: process.env.DEVICE_TOKEN || '',

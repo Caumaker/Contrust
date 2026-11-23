@@ -4,6 +4,7 @@
 //   contrust-verify --peer http://localhost:5101 [--authorities key1,key2]   whole chain
 //   contrust-verify --peer http://localhost:5101 --reading <hash>             one reading (Merkle proof)
 //   contrust-verify --file data/peer1/chain.jsonl --chain contrust-demo --authorities k1,k2,k3
+//   add --tip <block hash> (published by the parties) to prove the chain was not cut short after that block
 // Pass --authorities from a source you trust (the contract, the network config). Without it the verifier
 // uses the list the peer reports, which only proves internal consistency.
 const fs = require('fs');
@@ -26,8 +27,8 @@ async function main() {
   if (a.reading) {
     if (!a.peer) throw new Error('--reading needs --peer');
     const proof = await getJson(`${a.peer.replace(/\/+$/, '')}/proof/${a.reading}`);
-    if (!trusted) authorities = proof.authorities;
-    const v = verifyProof(proof, authorities);
+    if (!trusted) authorities = proof.reportedAuthorities;
+    const v = verifyProof(proof, authorities, { hash: a.reading, chainId: a.chain });
     return out(v.ok, `${v.reason}${v.ok ? `, ${proof.confirmations} confirmations` : ''}${trusted ? '' : ' (authorities as reported by the peer)'}`);
   }
   let blocks;
@@ -42,7 +43,8 @@ async function main() {
     chainId = status.chainId;
     if (!trusted) authorities = status.authorities;
     blocks = [];
-    for (let from = 0, voltas = 0; voltas < 10000; voltas++) { // ceiling: 10000 pages
+    if (a.chain && a.chain !== chainId) return out(false, `the peer serves chain "${chainId}", not "${a.chain}"`);
+    for (let from = 0, voltas = 0; voltas < 100000; voltas++) { // ceiling: 100000 pages
       const page = await getJson(`${base}/chain?from=${from}`);
       blocks.push(...page.blocks);
       from += page.blocks.length;
@@ -52,8 +54,9 @@ async function main() {
     throw new Error('use --peer <url> or --file <chain.jsonl>');
   }
   try {
-    const c = Chain.fromBlocks(blocks, { chainId, authorities });
+    const c = Chain.fromBlocks(blocks, { chainId, authorities }, { checkClock: false });
     const readings = c.blocks.reduce((n, b) => n + b.entries.length, 0);
+    if (a.tip && !c.blocks.some((b) => b.hash === a.tip)) return out(false, `block ${a.tip.slice(0, 16)}... is not in this chain: it was cut short or is another chain`);
     out(true, `chain "${chainId}": ${c.height} blocks, ${readings} readings, tip ${c.tip.hash.slice(0, 16)}...${trusted ? '' : ' (authorities as reported by the peer)'}`);
   } catch (e) {
     out(false, e.message);

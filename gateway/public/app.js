@@ -19,18 +19,18 @@ async function sha256(texto) {
 }
 
 function selo(r) {
-  if (r.state === 'anchored') return `<span class="selo anchored">block #${r.block}</span>`;
+  if (r.state === 'anchored') return `<span class="selo anchored">block #${Number(r.block)}</span>`;
   return `<span class="selo ${r.state}">${r.state === 'queued' ? 'queued (ledger offline)' : 'waiting for block'}</span>`;
 }
 
 function linha(r, novo) {
   const x = r.reading;
-  return `<tr data-hash="${r.hash}" class="${novo ? 'novo' : ''}">
+  return `<tr data-hash="${esc(r.hash)}" class="${novo ? 'novo' : ''}">
     <td>${esc(quando(x.takenAt))}</td><td>${esc(x.instrumentId)}</td>
     <td class="num">${esc(x.value)} ${esc(x.unit || '')}</td>
     <td>${x.deviceId ? esc(x.deviceId) + (r.signed ? ' <span class="assinado" title="signed by the device">✔</span>' : '') : '<span class="pequeno">-</span>'}</td>
     <td>${selo(r)}</td>
-    <td><button class="verificar" data-hash="${r.hash}" ${r.state === 'anchored' ? '' : 'disabled'}>Verify</button></td></tr>`;
+    <td><button class="verificar" data-hash="${esc(r.hash)}" ${r.state === 'anchored' ? '' : 'disabled'}>Verify</button></td></tr>`;
 }
 
 function desenharTabela(novo) {
@@ -75,7 +75,7 @@ function estado(s) {
     $('altura').textContent = l.height;
     $('pendentes').textContent = l.pending;
     $('pares').textContent = l.peers;
-    $('ponta').textContent = l.tip.slice(0, 24) + '…';
+    $('ponta').textContent = String(l.tip).slice(0, 24) + '…';
   }
 }
 
@@ -90,15 +90,16 @@ async function verificar(hash) {
   const p = j.proof;
   const item = (ok, txt) => `<li class="${ok ? 'ok' : 'falha'}">${ok ? '✔' : '✘'} ${txt}</li>`;
   const h1 = await sha256(canonical(p.entry.reading));
-  let h = p.entry.hash;
+  // the Merkle leaf covers the reading hash and the device signature (ledger/src/chain.js, leafOf)
+  let h = await sha256(canonical({ hash: p.entry.hash, deviceSignature: p.entry.deviceSignature || null }));
   for (const s of p.merkleProof) h = s.side === 'left' ? await sha256(s.hash + h) : await sha256(h + s.hash);
   const h3 = await sha256(canonical(p.block.header));
   passos.innerHTML = [
-    item(h1 === p.entry.hash, `The reading hashes to <span class="mono">${h1.slice(0, 16)}…</span>`),
-    item(h === p.block.header.merkleRoot, `Its Merkle path (${p.merkleProof.length} steps) reaches the root of block #${p.block.header.index}`),
-    item(h3 === p.block.hash, `The block header hashes to <span class="mono">${h3.slice(0, 16)}…</span>, which the next blocks point to`),
-    item(j.verification.ok, `Signed by an authority of the network (${esc(j.verification.reason)})`),
-    `<li class="pequeno">${p.confirmations} block(s) sealed after it</li>`,
+    item(h1 === p.entry.hash && p.entry.hash === hash, `The reading hashes to <span class="mono">${esc(h1.slice(0, 16))}…</span>, the one you asked about`),
+    item(h === p.block.header.merkleRoot, `Its Merkle path (${Number(p.merkleProof.length)} steps) reaches the root of block #${Number(p.block.header.index)}`),
+    item(h3 === p.block.hash, `The block header hashes to <span class="mono">${esc(h3.slice(0, 16))}…</span>, which the next blocks point to`),
+    item(j.verification.ok, `Certified by the authorities (${esc(j.verification.reason)})`),
+    `<li class="pequeno">${Number(p.confirmations)} block(s) certified after it</li>`,
   ].join('');
   $('baixar').href = URL.createObjectURL(new Blob([JSON.stringify(p, null, 2)], { type: 'application/json' }));
 }

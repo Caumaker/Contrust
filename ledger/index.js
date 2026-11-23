@@ -14,6 +14,7 @@ const peer = createPeer({
   gatewayToken: process.env.GATEWAY_TOKEN || '',
   networkToken: process.env.NETWORK_TOKEN || '',
   sealIntervalMs: Number(process.env.SEAL_INTERVAL_MS || 3000),
+  insecure: process.env.INSECURE === 'true',
 });
 peer.listen().catch((e) => { console.error(e.message); process.exit(1); });
 process.on('SIGTERM', () => peer.close().then(() => process.exit(0)));

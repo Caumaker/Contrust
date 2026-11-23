@@ -7,11 +7,19 @@ const FIELDS = ['instrumentId', 'takenAt', 'value', 'unit', 'raw', 'deviceId', '
 // Normalizes and validates. Throws with a readable message on bad input.
 function normalizeReading(input) {
   const r = input && typeof input === 'object' ? input : {};
-  const instrumentId = String(r.instrumentId || '').trim();
+  const instrumentId = typeof r.instrumentId === 'string' ? r.instrumentId.trim() : '';
   if (!instrumentId || instrumentId.length > 120) throw new Error('instrumentId is required (up to 120 characters)');
+  // the time must say its time zone: "2020-08-02T19:00:00-03:00" or "...Z". A bare local time would depend on
+  // the clock settings of whoever parses it.
+  if (typeof r.takenAt !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,9})?)?(Z|[+-]\d{2}:\d{2})$/.test(r.takenAt)) throw new Error('takenAt must be an ISO 8601 date and time with its time zone (Z or +hh:mm)');
   const takenAt = new Date(r.takenAt);
-  if (Number.isNaN(takenAt.getTime())) throw new Error('takenAt must be a date (ISO 8601)');
-  const value = typeof r.value === 'string' ? Number(r.value.replace(',', '.')) : r.value;
+  if (Number.isNaN(takenAt.getTime())) throw new Error('takenAt is not a valid date');
+  // numbers, or decimal strings as loggers write them ("43,948"); nothing else (no "", no hex, no null)
+  let value = r.value;
+  if (typeof value === 'string') {
+    if (!/^-?\d+([.,]\d+)?([eE][-+]?\d+)?$/.test(value.trim())) throw new Error('value must be a number');
+    value = Number(value.trim().replace(',', '.'));
+  }
   if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error('value must be a finite number');
   const reading = { instrumentId, takenAt: takenAt.toISOString(), value };
   if (r.unit !== undefined && r.unit !== '') reading.unit = String(r.unit).slice(0, 32);

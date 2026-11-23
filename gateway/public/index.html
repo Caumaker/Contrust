@@ -43,7 +43,7 @@
     <h3>Verify reading</h3>
     <p class="mono pequeno" id="provaHash"></p>
     <ol id="passos"></ol>
-    <p class="pequeno nota">Steps 1 to 3 run in your browser from the raw proof. The signature (step 4) is checked by the gateway; for a check that trusts nobody, run <code>npm run verify -- --peer &lt;url&gt; --reading &lt;hash&gt; --authorities &lt;keys&gt;</code>.</p>
+    <p class="pequeno nota">Steps 1 to 3 run in your browser from the raw proof. The signatures (step 4) are checked by the gateway against the authorities it was configured with; for a check that trusts nobody, run <code>npm run verify -- --peer &lt;url&gt; --reading &lt;hash&gt; --authorities &lt;keys&gt;</code>.</p>
     <div class="acoes"><a id="baixar" download="proof.json">Download proof (JSON)</a><button>Close</button></div>
   </form>
 </dialog>
