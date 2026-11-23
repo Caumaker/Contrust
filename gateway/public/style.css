@@ -1,0 +1,53 @@
+:root { --fundo: #0f1420; --painel: #171e2e; --borda: #263049; --texto: #e6ebf5; --fraco: #8d99b3; --azul: #4c8dff; --verde: #2fcf84; --ambar: #f0b43c; --cinza: #5b6782; --vermelho: #ff5a5a; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); color: var(--texto); font: 14px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid var(--borda); }
+header a { color: var(--fraco); text-decoration: none; }
+.marca { font-weight: 700; letter-spacing: .08em; }
+.marca small { font-weight: 400; letter-spacing: 0; color: var(--fraco); margin-left: 8px; }
+.logo { color: var(--azul); }
+main { max-width: 1180px; margin: 0 auto; padding: 20px 24px 60px; }
+section { margin-bottom: 24px; }
+.cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.cartao { background: var(--painel); border: 1px solid var(--borda); border-radius: 10px; padding: 12px 14px; }
+.cartao b { display: block; font-size: 22px; }
+.cartao span { color: var(--fraco); font-size: 12px; }
+.cartao.largo { grid-column: span 2; }
+.cartao.largo b { font-size: 14px; padding-top: 7px; }
+.titulo { font-weight: 600; margin-bottom: 8px; }
+.dica { font-size: 11px; color: var(--verde); border: 1px solid var(--verde); border-radius: 8px; padding: 0 6px; margin-left: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.chip { background: var(--painel); border: 1px solid var(--borda); color: var(--texto); border-radius: 999px; padding: 5px 12px; cursor: pointer; font: inherit; }
+.chip.ativo { border-color: var(--azul); box-shadow: 0 0 0 1px var(--azul) inset; }
+.chip small { color: var(--fraco); margin-left: 6px; }
+#grafico { width: 100%; height: 220px; background: var(--painel); border: 1px solid var(--borda); border-radius: 10px; }
+.tabela { overflow: auto; max-height: 560px; background: var(--painel); border: 1px solid var(--borda); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--borda); white-space: nowrap; }
+th { color: var(--fraco); font-weight: 500; font-size: 12px; position: sticky; top: 0; background: var(--painel); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.novo { animation: brilho 1.5s ease-out; }
+@keyframes brilho { from { background: rgba(76, 141, 255, .25); } to { background: transparent; } }
+.vazio { color: var(--fraco); text-align: center; padding: 28px; white-space: normal; }
+.selo { border-radius: 999px; padding: 1px 8px; font-size: 12px; }
+.selo.anchored { background: rgba(47, 207, 132, .15); color: var(--verde); }
+.selo.pending { background: rgba(240, 180, 60, .15); color: var(--ambar); }
+.selo.queued { background: rgba(91, 103, 130, .25); color: var(--fraco); }
+.assinado { color: var(--verde); }
+button.verificar { background: transparent; color: var(--azul); border: 1px solid var(--azul); border-radius: 6px; padding: 2px 10px; cursor: pointer; font: inherit; font-size: 12px; }
+button.verificar:disabled { opacity: .35; cursor: default; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.pequeno { font-size: 12px; color: var(--fraco); word-break: break-all; }
+code { background: #0b0f18; border-radius: 4px; padding: 1px 5px; }
+dialog { background: var(--painel); color: var(--texto); border: 1px solid var(--borda); border-radius: 12px; max-width: 640px; width: calc(100% - 32px); }
+dialog::backdrop { background: rgba(0, 0, 0, .55); }
+dialog h3 { margin: 0 0 4px; }
+#passos { padding-left: 20px; }
+#passos li { margin: 8px 0; }
+#passos .ok { color: var(--verde); }
+#passos .falha { color: var(--vermelho); }
+.nota { white-space: normal; word-break: normal; }
+.acoes { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+.acoes a { color: var(--azul); }
+.acoes button { background: var(--azul); color: #fff; border: 0; border-radius: 8px; padding: 6px 16px; cursor: pointer; }
+@media (max-width: 640px) { .cartao.largo { grid-column: span 1; } header { padding: 12px 16px; } main { padding: 16px; } }
